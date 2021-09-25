@@ -85,7 +85,7 @@ const searchForCity = (searchVal) => {
                         }
                     });
             } else {
-                alert('Error: Invalid Server Response!');
+                alert('Error: Invalid Server Response!\nPlease try a more detailed search');
             }
         });
 };
@@ -191,7 +191,6 @@ document.querySelector('#city-search-button').addEventListener('click', () => {
         searchForCity(searchString);
     }
 });
-
 //Eventlistener:  when clicked on saved city
 document.querySelector('#city-list-container').addEventListener('click', (e) => {
 
