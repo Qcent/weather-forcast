@@ -1,3 +1,13 @@
+const bgPics = {
+    sevenHun: "https://i.cbc.ca/1.4043542.1490696856!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_620/foggy-driving.jpg",
+    Clouds: "https://images.pexels.com/photos/53594/blue-clouds-day-fluffy-53594.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    Rain: "https://images.pexels.com/photos/2259232/pexels-photo-2259232.jpeg",
+    Drizzle: "https://images.pexels.com/photos/2259232/pexels-photo-2259232.jpeg",
+    Clear: "https://www.langleyadvancetimes.com/wp-content/uploads/2019/11/19458466_web1_Langley-Weather-Sun-Clear-Sky-Skies.jpg",
+    Snow: "https://www.metoffice.gov.uk/binaries/content/gallery/metofficegovuk/hero-images/events/christmas/pine-trees-in-christmas-snow.jpg",
+    Thunderstorm: "https://images.pexels.com/photos/6510369/pexels-photo-6510369.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+};
+
 // an array to store a list of saved cities
 let cityList = [];
 
@@ -111,6 +121,11 @@ const displayCurrentForecast = (city, forecast) => {
     //Update UV Index background color
     (forecast.uvi >= 3) ? (forecast.uvi > 7) ?
     UV.style.backgroundColor = '#e8470a': UV.style.backgroundColor = '#d8d01f': UV.style.backgroundColor = '#57e45b';
+
+
+    //update bg pic
+    document.getElementById('current-forecast').style.backgroundImage = "url('" + bgPics[forecast.weather[0].main] + "')";
+    document.getElementById('current-forecast').style.backgroundSize = 'cover';
 
 };
 
