@@ -1,5 +1,5 @@
 * {
-    /*  border: 1px solid black;
+    /* border: 1px solid black;
     */
     margin: 0;
     padding: 0;
@@ -63,7 +63,27 @@ main {
 }
 
 .btn.deleteable {
-    background-color: rgb(221, 21, 21) !important;
+    background-color: rgb(221, 21, 21);
+}
+
+#delete-container {
+    text-align: center;
+}
+
+#delete-container span {
+    display: inline-block;
+    width: auto;
+    padding: 1rem;
+}
+
+#delete-city,
+#remove-all-cities {
+    display: block;
+    margin: 0 auto;
+    width: 2rem;
+    height: 2rem;
+    /* make it red */
+    filter: invert(11%) sepia(98%) saturate(7072%) hue-rotate(355deg) brightness(95%) contrast(96%);
 }
 
 #right-column {
