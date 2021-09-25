@@ -94,7 +94,8 @@ main {
     list-style: none;
 }
 
-#current-forecast #cur-UV {
+.uv-index {
+    color: black;
     padding: .2rem .5rem;
     border-radius: .5rem;
 }

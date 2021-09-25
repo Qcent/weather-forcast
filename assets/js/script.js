@@ -12,7 +12,7 @@ const getforecast = (loc) => {
                     .then((data) => {
                         console.log(loc)
                         displayCurrentForecast(loc.loc, data.current);
-                        //displayFiveDayForecast(data.daily);
+                        displayFiveDayForecast(data.daily);
                     })
             } else {
                 alert("ERROR!");
@@ -33,13 +33,17 @@ const searchForCity = (searchVal) => {
             if (response.ok) {
                 response.json()
                     .then((data) => {
-                        let location = data.results[0].formatted;
-                        let lon = data.results[0].geometry.lng
-                        let lat = data.results[0].geometry.lat;
-                        getforecast({ loc: location, LAT: lat, LNG: lon });
+                        if (data.results) {
+                            let location = data.results[0].formatted;
+                            let lon = data.results[0].geometry.lng
+                            let lat = data.results[0].geometry.lat;
+                            getforecast({ loc: location, LAT: lat, LNG: lon });
+                        } else {
+                            alert('Error: Location not Found!');
+                        }
                     });
             } else {
-                alert('Error: Location not Found!');
+                alert('Error: Invalid Server Response!');
             }
         });
 }
@@ -49,7 +53,7 @@ const displayCurrentForecast = (city, forecast) => {
     document.querySelector('#current-forecast h2').textContent = city;
     // Update current Date
     let forecastDate = luxon.DateTime.fromMillis(forecast.dt * 1000);
-    document.querySelector('#cur-Date').textContent = '(' + forecastDate.toISODate() + ')';
+    document.querySelector('#cur-Date').textContent = '(' + forecastDate.toFormat('d/mm/yyyy') + ')';
     //Update Current Weather Icon
     document.getElementById('cur-ConditionsIcon').setAttribute('src', "http://openweathermap.org/img/w/" + forecast.weather[0].icon + ".png");
     //Update Current Temp
@@ -67,36 +71,54 @@ const displayCurrentForecast = (city, forecast) => {
 
 }
 
-/*
-const display5DayForecast = (days) => {
+const displayFiveDayForecast = (days) => {
 
     let container = document.getElementById('fiveDay-forecast');
     container.innerHTML = '';
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 1; i < 6; i++) {
+        let dayHolder = document.createElement('div');
+        dayHolder.classList = 'fiveDay-box';
 
         // Update current Date
         let forecastDate = luxon.DateTime.fromMillis(days[i].dt * 1000);
-        document.querySelector('#cur-Date').textContent = '(' + forecastDate.toISODate() + ')';
+        let date = document.createElement('h4');
+        date.textContent = '(' + forecastDate.toISODate() + ')';
         //Update Current Weather Icon
-        document.getElementById('cur-ConditionsIcon').setAttribute('src', "http://openweathermap.org/img/w/" + forecast.weather[0].icon + ".png");
+        let icon = document.createElement('img');
+        icon.setAttribute('src', "http://openweathermap.org/img/w/" + days[i].weather[0].icon + ".png");
         //Update Current Temp
-        document.getElementById('cur-Temp').innerHTML = forecast.temp + "&deg;";
+        let temp = document.createElement('div');
+        temp.innerHTML = "Temp: " + days[i].temp.max + "&deg;";
         //Update Current Wind Speed
-        document.getElementById('cur-Wind').textContent = forecast.wind_speed + " km/h";
+        let wind = document.createElement('div');
+        wind.textContent = "Wind: " + days[i].wind_speed + " km/h";
         //Update Current Humidity
-        document.getElementById('cur-Humidity').textContent = forecast.humidity + "%";
+        let humidity = document.createElement('div');
+        humidity.textContent = "Humidity: " + days[i].humidity + "%";
         //Update UV Index
-        let UV = document.getElementById('cur-UV');
-        UV.textContent = forecast.uvi;
+        let UV = document.createElement('div');
+        UV.textContent = "UV Index: ";
+        let uvBox = document.createElement('span');
+        uvBox.classList = 'uv-index';
+        uvBox.textContent = days[i].uvi;
         //Update UV Index background color
-        (forecast.uvi >= 3) ?
-        (forecast.uvi > 7) ?
-        UV.style.backgroundColor = '#F1A13D': UV.style.backgroundColor = '#F0EB74': UV.style.backgroundColor = '#141518';
+        (days[i].uvi >= 3) ?
+        (days[i].uvi > 7) ?
+        uvBox.style.backgroundColor = '#e8470a': uvBox.style.backgroundColor = '#d8d01f': uvBox.style.backgroundColor = '#57e45b';
+        UV.appendChild(uvBox)
+
+        dayHolder.appendChild(date);
+        dayHolder.appendChild(icon);
+        dayHolder.appendChild(temp);
+        dayHolder.appendChild(wind);
+        dayHolder.appendChild(humidity);
+        dayHolder.appendChild(UV);
+        container.appendChild(dayHolder);
 
     }
 }
-*/
+
 
 searchBtnEL.addEventListener('click', () => {
     let searchString = document.querySelector('#city-search').value;
