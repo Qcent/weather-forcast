@@ -1,6 +1,39 @@
-let searchBtnEL = document.querySelector('#city-search-button');
+// an array to store a list of saved cities
+let cityList = [];
 
-const getforecast = (loc) => {
+//add a searched city to a list of saved cities
+const saveCity = (city) => {
+    let alreadyPresent = false;
+    cityList.forEach((cti) => {
+        if (cti.loc === city.loc) { alreadyPresent = true; }
+    });
+
+    if (!alreadyPresent) {
+        cityList.push(city);
+
+        localStorage.setItem("WeatherForecast-Cities", JSON.stringify(cityList));
+
+        displaySavedCities()
+    }
+};
+//diaplayes a list of saved cities
+const displaySavedCities = () => {
+    if (cityList) {
+        document.getElementById('city-list-container').innerHTML = '';
+        cityList.forEach((cti) => {
+            let cityBtn = document.createElement('button');
+            cityBtn.classList = 'btn';
+            cityBtn.setAttribute('data-lat', cti.LAT);
+            cityBtn.setAttribute('data-lng', cti.LNG);
+            cityBtn.textContent = cti.loc;
+
+            document.getElementById('city-list-container').appendChild(cityBtn);
+        });
+    }
+}
+
+//uses OpenWeather OneCall API to get current and 5-day weather forecast from lat/lng coordinates
+const getForecast = (loc) => {
     let apiKey = "1be3e8e5b8a843e3e02788dc70cdc2e8";
     let apiCallforecast = "https://api.openweathermap.org/data/2.5/onecall?lat=" +
         loc.LAT + "&lon=" + loc.LNG + "&exclude=minutely,hourly&units=metric&appid=" + apiKey;
@@ -18,7 +51,9 @@ const getforecast = (loc) => {
                 alert("ERROR!");
             }
         });
-}
+};
+
+// uses OpenCage API for searching locations and returning lat/lng coordinates
 const searchForCity = (searchVal) => {
     let OpenCageApiKey = "a31aaf6189ea4b81879c2695221eb02c";
     let OpenCageApiLang = "en";
@@ -37,7 +72,14 @@ const searchForCity = (searchVal) => {
                             let location = data.results[0].formatted;
                             let lon = data.results[0].geometry.lng
                             let lat = data.results[0].geometry.lat;
-                            getforecast({ loc: location, LAT: lat, LNG: lon });
+
+                            let city = {
+                                loc: location,
+                                LAT: lat,
+                                LNG: lon
+                            }
+                            saveCity(city);
+                            getForecast(city);
                         } else {
                             alert('Error: Location not Found!');
                         }
@@ -46,8 +88,9 @@ const searchForCity = (searchVal) => {
                 alert('Error: Invalid Server Response!');
             }
         });
-}
+};
 
+//displays info on current weather conditions in pre made HTML elements
 const displayCurrentForecast = (city, forecast) => {
     // Update City/Location
     document.querySelector('#current-forecast h2').textContent = city;
@@ -69,8 +112,9 @@ const displayCurrentForecast = (city, forecast) => {
     (forecast.uvi >= 3) ? (forecast.uvi > 7) ?
     UV.style.backgroundColor = '#e8470a': UV.style.backgroundColor = '#d8d01f': UV.style.backgroundColor = '#57e45b';
 
-}
+};
 
+//displays 5-day forecast weather conditions in dynamically created HTML elements
 const displayFiveDayForecast = (days) => {
 
     let container = document.getElementById('fiveDay-forecast');
@@ -121,16 +165,36 @@ const displayFiveDayForecast = (days) => {
         container.appendChild(dayHolder);
 
     }
-}
+};
 
+//add a searched city to a list of saved cities
+const loadSavedCities = (() => {
+    cityList = JSON.parse(localStorage.getItem("WeatherForecast-Cities")) || [];
 
-searchBtnEL.addEventListener('click', () => {
-    let searchString = document.querySelector('#city-search').value;
-    document.querySelector('#city-search').value = '';
-
-    if (searchString) {
-        searchForCity(searchString);
-        //getforecast({ location: 'sarnia', LAT: 33.44, LNG: -94.04 });
+    if (cityList) {
+        displaySavedCities();
     }
 
-})
+})(); // will execute automatically
+
+//Eventlistener:  when clicked search for city
+document.querySelector('#city-search-button').addEventListener('click', () => {
+    let searchString = document.querySelector('#city-search').value;
+    document.querySelector('#city-search').value = '';
+    if (searchString) {
+        searchForCity(searchString);
+    }
+});
+
+//Eventlistener:  when clicked saved city
+document.querySelector('#city-list-container').addEventListener('click', (e) => {
+
+    if (e.target.getAttribute('data-lat') && e.target.getAttribute('data-lng')) {
+
+        getForecast({
+            loc: e.target.textContent,
+            LAT: e.target.getAttribute('data-lat'),
+            LNG: e.target.getAttribute('data-lng')
+        });
+    }
+});

@@ -15,24 +15,37 @@
         <h1> Weather Dashboard </h1>
     </header>
     <main>
+
+        <!-- LEFT COLUMN -->
         <section id='left-column'>
+
+            <!-- SEARCH BOX -->
             <div id='search-container'>
                 <label for='city-search'>Search for a City:</label>
                 <input id='city-search' name='city-search' type='text' placeholder="Sarnia, On">
                 <button id='city-search-button' class='btn'>Search</button>
             </div>
+            <!-- END OF SEARCH -->
+
+            <!-- SAVED CITIES LIST -->
             <div id='city-list-container'>
 
             </div>
-        </section>
+            <!-- END OF SAVED CITIES -->
 
+        </section>
+        <!-- END OF LEFT COLUMN -->
+
+
+        <!-- RIGHT COLUMN -->
         <section id='right-column'>
+
+            <!-- CURRENT FORECAST -->
             <div id='current-forecast'>
                 <span id='city-title-container'>
                 <h2>City Name</h2>
-                    <span id='cur-Date'>(date)</span>
+                <span id='cur-Date'>(date)</span>
                 <img id='cur-ConditionsIcon'>
-
                 </span>
                 <ul>
                     <li>Temp: <span id='cur-Temp'></span></li>
@@ -41,6 +54,9 @@
                     <li>UV Index: <span id='cur-UV' class='uv-index'></span></li>
                 </ul>
             </div>
+            <!-- END OF CURRENT FORECAST-->
+
+            <!-- FIVE DAY FORECAST -->
             <div id='fiveDay-forecast'>
                 <h3>5-Day Forecast</h3>
                 <div class='fiveDay-box'>Day 1</div>
@@ -49,8 +65,10 @@
                 <div class='fiveDay-box'>Day 4</div>
                 <div class='fiveDay-box'>Day 5</div>
             </div>
+            <!-- END OF FIVE DAY FORECAST -->
 
         </section>
+        <!-- END OF RIGHT COLUMN -->
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.0.2/luxon.min.js" integrity="sha512-frUCURIeB0OKMPgmDEwT3rC4NH2a4gn06N3Iw6T1z0WfrQZd7gNfJFbHrNsZP38PVXOp6nUiFtBqVvmCj+ARhw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
