@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenWeather Forcaster</title>
+
+    <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+
+<body>
+    <header>
+        <h1> Weather Dashboard </h1>
+    </header>
+    <main>
+        <section id='left-column'>
+            <div id='search-container'>
+                <label for='city-search'>Search for a City:</label>
+                <input id='city-search' name='city-search' type='text' placeholder="Sarnia, On">
+                <button id='city-search-button' class='btn'>Search</button>
+            </div>
+            <div id='city-list-container'>
+
+            </div>
+        </section>
+
+        <section id='right-column'>
+            <div id='current-forcast'>
+                <h2>City Name</h2>
+                <ul>
+                    <li>Temp:</li>
+                    <li>Wind:</li>
+                    <li>Humidity:</li>
+                    <li>UV Index:</li>
+                </ul>
+            </div>
+            <div id='fiveDay-forcast'>
+                <h3>5-Day Forcast</h3>
+                <div class='fiveDay-box'>Day 1</div>
+                <div class='fiveDay-box'>Day 2</div>
+                <div class='fiveDay-box'>Day 3</div>
+                <div class='fiveDay-box'>Day 4</div>
+                <div class='fiveDay-box'>Day 5</div>
+            </div>
+
+        </section>
+    </main>
+</body>
+
+</html>
