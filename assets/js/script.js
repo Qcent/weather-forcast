@@ -16,6 +16,7 @@ const saveCity = (city) => {
         displaySavedCities()
     }
 };
+
 //diaplayes a list of saved cities
 const displaySavedCities = () => {
     if (cityList) {
@@ -43,7 +44,6 @@ const getForecast = (loc) => {
             if (response.ok) {
                 response.json()
                     .then((data) => {
-                        console.log(loc)
                         displayCurrentForecast(loc.loc, data.current);
                         displayFiveDayForecast(data.daily);
                     })
@@ -177,7 +177,13 @@ const loadSavedCities = (() => {
 
 })(); // will execute automatically
 
-//Eventlistener:  when clicked search for city
+//Eventlistener:  when enter is pressed in search for city
+document.querySelector('#city-search').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        document.querySelector('#city-search-button').click();
+    }
+});
+//Eventlistener:  when clicked on search for city
 document.querySelector('#city-search-button').addEventListener('click', () => {
     let searchString = document.querySelector('#city-search').value;
     document.querySelector('#city-search').value = '';
@@ -186,7 +192,7 @@ document.querySelector('#city-search-button').addEventListener('click', () => {
     }
 });
 
-//Eventlistener:  when clicked saved city
+//Eventlistener:  when clicked on saved city
 document.querySelector('#city-list-container').addEventListener('click', (e) => {
 
     if (e.target.getAttribute('data-lat') && e.target.getAttribute('data-lng')) {
