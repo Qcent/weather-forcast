@@ -62,6 +62,10 @@ main {
     padding: .5rem;
 }
 
+.btn.deleteable {
+    background-color: rgb(221, 21, 21) !important;
+}
+
 #right-column {
     width: 73.5%;
 }

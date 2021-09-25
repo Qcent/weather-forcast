@@ -1,3 +1,6 @@
+let deleteMode = false;
+
+//array of objects to hold url to images
 const bgPics = {
     sevenHun: "https://i.cbc.ca/1.4043542.1490696856!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_620/foggy-driving.jpg",
     Clouds: "https://images.pexels.com/photos/53594/blue-clouds-day-fluffy-53594.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
@@ -11,7 +14,11 @@ const bgPics = {
 // an array to store a list of saved cities
 let cityList = [];
 
-//add a searched city to a list of saved cities
+//save the city list
+const saveCityList = () => {
+        localStorage.setItem("WeatherForecast-Cities", JSON.stringify(cityList));
+    }
+    //add a searched city to a list of saved cities
 const saveCity = (city) => {
     let alreadyPresent = false;
     cityList.forEach((cti) => {
@@ -21,24 +28,26 @@ const saveCity = (city) => {
     if (!alreadyPresent) {
         cityList.push(city);
 
-        localStorage.setItem("WeatherForecast-Cities", JSON.stringify(cityList));
-
-        displaySavedCities()
+        saveCityList();
+        displaySavedCities();
     }
 };
 
 //diaplayes a list of saved cities
 const displaySavedCities = () => {
     if (cityList) {
+        let i = 0;
         document.getElementById('city-list-container').innerHTML = '';
         cityList.forEach((cti) => {
             let cityBtn = document.createElement('button');
             cityBtn.classList = 'btn';
+            cityBtn.setAttribute('data-index', i);
             cityBtn.setAttribute('data-lat', cti.LAT);
             cityBtn.setAttribute('data-lng', cti.LNG);
             cityBtn.textContent = cti.loc;
 
             document.getElementById('city-list-container').appendChild(cityBtn);
+            i++;
         });
     }
 }
@@ -124,7 +133,11 @@ const displayCurrentForecast = (city, forecast) => {
 
 
     //update bg pic
-    document.getElementById('current-forecast').style.backgroundImage = "url('" + bgPics[forecast.weather[0].main] + "')";
+    if (forecast.weather[0].id >= 700 && forecast.weather[0].id < 800) {
+        document.getElementById('current-forecast').style.backgroundImage = "url('" + bgPics['sevenHun'] + "')";
+    } else {
+        document.getElementById('current-forecast').style.backgroundImage = "url('" + bgPics[forecast.weather[0].main] + "')";
+    }
     document.getElementById('current-forecast').style.backgroundSize = 'cover';
 
 };
@@ -209,8 +222,7 @@ document.querySelector('#city-search-button').addEventListener('click', () => {
 //Eventlistener:  when clicked on saved city
 document.querySelector('#city-list-container').addEventListener('click', (e) => {
 
-    if (e.target.getAttribute('data-lat') && e.target.getAttribute('data-lng')) {
-
+    if (!deleteMode && e.target.getAttribute('data-lat') && e.target.getAttribute('data-lng')) {
         getForecast({
             loc: e.target.textContent,
             LAT: e.target.getAttribute('data-lat'),
@@ -218,3 +230,35 @@ document.querySelector('#city-list-container').addEventListener('click', (e) => 
         });
     }
 });
+//Eventlistener:  when clicked on remove all cities element
+document.querySelector('#remove-all-cities').addEventListener('click', () => {
+    if (confirm("Are you sure you want to remove all cities?")) {
+        cityList = [];
+        saveCityList();
+        displaySavedCities();
+    }
+});
+//Event listener on body handles deleting of individual cities
+document.querySelector('body').addEventListener('click', (e) => {
+
+    if (e.target.id === 'delete-city') { //delete city button was pressed
+        deleteMode = true;
+        list = document.querySelectorAll('#city-list-container .btn')
+        list.forEach((cti) => {
+            cti.classList = 'btn deleteable';
+
+        });
+    } else
+    if (deleteMode && e.target.matches('.deleteable')) { // a city was selected to be deleted
+        idx = e.target.getAttribute('data-index');
+        cityList.splice(idx, 1);
+        saveCityList();
+        displaySavedCities();
+    } else if (deleteMode) { //something other then a city was clicked when in delete mode
+        deleteMode = false;
+        list = document.querySelectorAll('#city-list-container .btn')
+        list.forEach((cti) => {
+            cti.classList = 'btn';
+        });
+    }
+})
