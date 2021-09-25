@@ -27,16 +27,21 @@
         </section>
 
         <section id='right-column'>
-            <div id='current-forcast'>
+            <div id='current-forecast'>
+                <span id='city-title-container'>
                 <h2>City Name</h2>
+                    <span id='cur-Date'>(date)</span>
+                <img id='cur-ConditionsIcon'>
+
+                </span>
                 <ul>
-                    <li>Temp:</li>
-                    <li>Wind:</li>
-                    <li>Humidity:</li>
-                    <li>UV Index:</li>
+                    <li>Temp: <span id='cur-Temp'></span></li>
+                    <li>Wind: <span id='cur-Wind'></span></li>
+                    <li>Humidity: <span id='cur-Humidity'></span></li>
+                    <li>UV Index: <span id='cur-UV'></span></li>
                 </ul>
             </div>
-            <div id='fiveDay-forcast'>
+            <div id='fiveDay-forecast'>
                 <h3>5-Day Forcast</h3>
                 <div class='fiveDay-box'>Day 1</div>
                 <div class='fiveDay-box'>Day 2</div>
@@ -48,6 +53,7 @@
         </section>
     </main>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.0.2/luxon.min.js" integrity="sha512-frUCURIeB0OKMPgmDEwT3rC4NH2a4gn06N3Iw6T1z0WfrQZd7gNfJFbHrNsZP38PVXOp6nUiFtBqVvmCj+ARhw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="assets/js/script.js"></script>
 </body>
 
