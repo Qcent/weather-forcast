@@ -94,6 +94,11 @@ main {
     list-style: none;
 }
 
+#current-forecast #cur-UV {
+    padding: .2rem .5rem;
+    border-radius: .5rem;
+}
+
 #fiveDay-forecast {
     margin-right: 1rem;
     display: flex;
