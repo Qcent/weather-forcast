@@ -75,6 +75,10 @@ const displayFiveDayForecast = (days) => {
 
     let container = document.getElementById('fiveDay-forecast');
     container.innerHTML = '';
+    let title = document.createElement('h3');
+    title.textContent = "5-Day Forecast";
+
+    container.appendChild(title);
 
     for (let i = 1; i < 6; i++) {
         let dayHolder = document.createElement('div');

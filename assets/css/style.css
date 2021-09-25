@@ -81,8 +81,6 @@ main {
 
 #city-title-container img {
     vertical-align: middle;
-    width: 50px;
-    height: 50px;
 }
 
 #current-forecast ul {
@@ -116,6 +114,9 @@ main {
     width: 17.8%;
     background-color: #33475A;
     color: honeydew;
-    min-height: 13rem;
     padding: .5rem;
+}
+
+.fiveDay-box div {
+    margin: .5rem 0;
 }
