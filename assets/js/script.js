@@ -67,6 +67,8 @@ const getForecast = (loc) => {
                     .then((data) => {
                         displayCurrentForecast(loc.loc, data.current);
                         displayFiveDayForecast(data.daily);
+                        //save last city to local storage
+                        localStorage.setItem("WeatherForecast-mostRecent", JSON.stringify(loc));
                     })
             } else {
                 alert("ERROR!");
@@ -227,18 +229,23 @@ const createDropDown = () => {
 const loadSavedCities = (() => {
     cityList = JSON.parse(localStorage.getItem("WeatherForecast-Cities")) || [];
 
+    let lastCity = JSON.parse(localStorage.getItem("WeatherForecast-mostRecent")) || '';
+
     if (cityList) {
         displaySavedCities();
+    }
+    if (lastCity) {
+        getForecast(lastCity);
     }
 
 })(); // will execute automatically
 
 //Eventlistener:  when enter is pressed in search for city
-document.querySelector('#city-search').addEventListener('keypress', (e) => {
+/*document.querySelector('#city-search').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         document.querySelector('#city-search-button').click();
     }
-});
+});*/
 //Eventlistener:  when clicked on search for city
 document.querySelector('#city-search-button').addEventListener('click', () => {
     let searchString = document.querySelector('#city-search').value;
