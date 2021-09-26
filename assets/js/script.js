@@ -223,27 +223,28 @@ const displayFiveDayForecast = () => {
 //creates a drop down list for the saved cities on smaller screens 
 const createDropDown = () => {
 
-    let target = document.querySelector('#city-list-container');
-    let el = document.createElement('div');
-    el.setAttribute('id', 'city-list-dropIcon');
-    el.innerHTML = "City List<img src='https://www.svgrepo.com/show/18393/list.svg' width='1rem' />";
+    if (!document.querySelector('#city-list-dropIcon')) {
+        let target = document.querySelector('#city-list-container');
+        let el = document.createElement('div');
+        el.setAttribute('id', 'city-list-dropIcon');
+        el.innerHTML = "City List<img src='https://www.svgrepo.com/show/18393/list.svg' width='1rem' />";
 
-    // insert el before target element
-    target.parentNode.insertBefore(el, target);
+        // insert el before target element
+        target.parentNode.insertBefore(el, target);
 
-    //event listener for menu expand/collapse
-    document.querySelector('#city-list-dropIcon').addEventListener('click', () => {
+        //event listener for menu expand/collapse
+        document.querySelector('#city-list-dropIcon').addEventListener('click', () => {
+            collapseListToggle();
+        });
+    }
+}
 
-        let listEl = document.querySelector('#city-list-container');
-        listEl.className = (listEl.className != 'expanded') ? 'expanded' : 'collapsed';
+const collapseListToggle = () => {
+    let listEl = document.querySelector('#city-list-container');
+    listEl.className = (listEl.className != 'expanded') ? 'expanded' : 'collapsed';
 
-        listEl = document.querySelector('#delete-container');
-        listEl.className = (listEl.className != 'expanded') ? 'expanded' : 'collapsed';
-    });
-    //eventlistener to collapse list when a city is clicked
-    document.querySelector('#city-list-container button').addEventListener('click', () => {
-        document.querySelector('#city-list-dropIcon').click();
-    });
+    listEl = document.querySelector('#delete-container');
+    listEl.className = (listEl.className != 'expanded') ? 'expanded' : 'collapsed';
 }
 
 //add a searched city to a list of saved cities
@@ -262,11 +263,11 @@ const loadSavedCities = (() => {
 })(); // will execute automatically
 
 //Eventlistener:  when enter is pressed in search for city
-/*document.querySelector('#city-search').addEventListener('keypress', (e) => {
+document.querySelector('#city-search').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         document.querySelector('#city-search-button').click();
     }
-});*/
+});
 //Eventlistener:  when clicked on search for city
 document.querySelector('#city-search-button').addEventListener('click', () => {
     let searchString = document.querySelector('#city-search').value;
@@ -284,6 +285,9 @@ document.querySelector('#city-list-container').addEventListener('click', (e) => 
             LAT: e.target.getAttribute('data-lat'),
             LNG: e.target.getAttribute('data-lng')
         });
+        if (document.querySelector('#city-list-dropIcon')) { //in dropdown list mode
+            collapseListToggle();
+        }
     }
 });
 //Eventlistener:  when clicked on remove all cities element
