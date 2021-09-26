@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpenWeather Forcaster</title>
+    <title>OpenWeather Forecaster</title>
 
     <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
@@ -32,16 +32,19 @@
 
             </div>
             <!-- END OF SAVED CITIES -->
-            <span id='delete-container'>
-            <span>
-            <img id='delete-city' alt="Delete city" src="https://www.svgrepo.com/show/94821/delete.svg">
-            delete
+
+            <!-- DELETE SAVED CITY BUTTONS -->
+            <div id='delete-container'>
+                <span>
+                <img id='delete-city' alt="Delete city" src="https://www.svgrepo.com/show/94821/delete.svg">
+                delete city
             </span>
-            <span>
-            <img id='remove-all-cities' alt="Remove All Cities" src="https://www.svgrepo.com/show/3477/delete-folder.svg">
-            remove all
+                <span>
+                <img id='remove-all-cities' alt="Remove All Cities" src="https://www.svgrepo.com/show/3477/delete-folder.svg">
+                delete all
             </span>
-            </span>
+            </div>
+            <!-- END OF DELETE BUTTONS -->
 
         </section>
         <!-- END OF LEFT COLUMN -->
@@ -52,17 +55,19 @@
 
             <!-- CURRENT FORECAST -->
             <div id='current-forecast'>
-                <span id='city-title-container'>
-                <h2>City Name</h2>
-                <span id='cur-Date'>(date)</span>
-                <img id='cur-ConditionsIcon'>
-                </span>
-                <ul>
-                    <li>Temp: <span id='cur-Temp'></span></li>
-                    <li>Wind: <span id='cur-Wind'></span></li>
-                    <li>Humidity: <span id='cur-Humidity'></span></li>
-                    <li>UV Index: <span id='cur-UV' class='uv-index'></span></li>
-                </ul>
+                <div id='info-container'>
+
+                    <h2>City Name</h2>
+                    <div id='cur-Date'>(date)</div>
+
+                    <ul>
+                        <img id='cur-ConditionsIcon'>
+                        <li>Temp: <span id='cur-Temp'></span></li>
+                        <li>Wind: <span id='cur-Wind'></span></li>
+                        <li>Humidity: <span id='cur-Humidity'></span></li>
+                        <li>UV Index: <span id='cur-UV' class='uv-index'></span></li>
+                    </ul>
+                </div>
             </div>
             <!-- END OF CURRENT FORECAST-->
 

@@ -49,6 +49,8 @@ const displaySavedCities = () => {
             document.getElementById('city-list-container').appendChild(cityBtn);
             i++;
         });
+
+        if (window.screen.width < 686) { createDropDown(); }
     }
 }
 
@@ -87,7 +89,7 @@ const searchForCity = (searchVal) => {
             if (response.ok) {
                 response.json()
                     .then((data) => {
-                        if (data.results) {
+                        if (data.results.length) {
                             let location = data.results[0].formatted;
                             let lon = data.results[0].geometry.lng
                             let lat = data.results[0].geometry.lat;
@@ -115,7 +117,7 @@ const displayCurrentForecast = (city, forecast) => {
     document.querySelector('#current-forecast h2').textContent = city;
     // Update current Date
     let forecastDate = luxon.DateTime.fromMillis(forecast.dt * 1000);
-    document.querySelector('#cur-Date').textContent = '(' + forecastDate.toFormat('d/mm/yyyy') + ')';
+    document.querySelector('#cur-Date').textContent = forecastDate.toFormat('LLL dd yyyy');
     //Update Current Weather Icon
     document.getElementById('cur-ConditionsIcon').setAttribute('src', "http://openweathermap.org/img/w/" + forecast.weather[0].icon + ".png");
     //Update Current Temp
@@ -148,7 +150,7 @@ const displayFiveDayForecast = (days) => {
     let container = document.getElementById('fiveDay-forecast');
     container.innerHTML = '';
     let title = document.createElement('h3');
-    title.textContent = "5-Day Forecast";
+    title.textContent = "5-Day Forecast:";
 
     container.appendChild(title);
 
@@ -159,7 +161,7 @@ const displayFiveDayForecast = (days) => {
         // Update current Date
         let forecastDate = luxon.DateTime.fromMillis(days[i].dt * 1000);
         let date = document.createElement('h4');
-        date.textContent = '(' + forecastDate.toISODate() + ')';
+        date.textContent = forecastDate.toFormat('LLL dd yyyy');
         //Update Current Weather Icon
         let icon = document.createElement('img');
         icon.setAttribute('src', "http://openweathermap.org/img/w/" + days[i].weather[0].icon + ".png");
@@ -194,6 +196,32 @@ const displayFiveDayForecast = (days) => {
 
     }
 };
+
+//creates a drop down list for the saved cities on smaller screens 
+const createDropDown = () => {
+
+    let target = document.querySelector('#city-list-container');
+    let el = document.createElement('div');
+    el.setAttribute('id', 'city-list-dropIcon');
+    el.innerHTML = "City List<img src='https://www.svgrepo.com/show/18393/list.svg' width='1rem' />";
+
+    // insert el before target element
+    target.parentNode.insertBefore(el, target);
+
+    //event listener for menu expand/collapse
+    document.querySelector('#city-list-dropIcon').addEventListener('click', () => {
+
+        let listEl = document.querySelector('#city-list-container');
+        listEl.className = (listEl.className != 'expanded') ? 'expanded' : 'collapsed';
+
+        listEl = document.querySelector('#delete-container');
+        listEl.className = (listEl.className != 'expanded') ? 'expanded' : 'collapsed';
+    });
+    //eventlistener to collapse list when a city is clicked
+    document.querySelector('#city-list-container button').addEventListener('click', () => {
+        document.querySelector('#city-list-dropIcon').click();
+    });
+}
 
 //add a searched city to a list of saved cities
 const loadSavedCities = (() => {
@@ -241,24 +269,36 @@ document.querySelector('#remove-all-cities').addEventListener('click', () => {
 //Event listener on body handles deleting of individual cities
 document.querySelector('body').addEventListener('click', (e) => {
 
-    if (e.target.id === 'delete-city') { //delete city button was pressed
-        deleteMode = true;
-        list = document.querySelectorAll('#city-list-container .btn')
-        list.forEach((cti) => {
-            cti.classList = 'btn deleteable';
+        if (e.target.id === 'delete-city') { //delete city button was pressed
+            deleteMode = true;
+            list = document.querySelectorAll('#city-list-container .btn')
+            list.forEach((cti) => {
+                cti.classList = 'btn deleteable';
 
-        });
-    } else
-    if (deleteMode && e.target.matches('.deleteable')) { // a city was selected to be deleted
-        idx = e.target.getAttribute('data-index');
-        cityList.splice(idx, 1);
-        saveCityList();
-        displaySavedCities();
-    } else if (deleteMode) { //something other then a city was clicked when in delete mode
-        deleteMode = false;
-        list = document.querySelectorAll('#city-list-container .btn')
-        list.forEach((cti) => {
-            cti.classList = 'btn';
-        });
+            });
+        } else
+        if (deleteMode && e.target.matches('.deleteable')) { // a city was selected to be deleted
+            idx = e.target.getAttribute('data-index');
+            cityList.splice(idx, 1);
+            saveCityList();
+            displaySavedCities();
+        } else if (deleteMode) { //something other then a city was clicked when in delete mode
+            deleteMode = false;
+            list = document.querySelectorAll('#city-list-container .btn')
+            list.forEach((cti) => {
+                cti.classList = 'btn';
+            });
+        }
+    })
+    /// create a collapseable list for the cities
+window.addEventListener('resize', () => {
+    /******** */
+
+    if (window.screen.width < 686 && !document.querySelector('#city-list-dropIcon')) {
+        createDropDown();
     }
-})
+    if (window.screen.width >= 686 && document.querySelector('#city-list-dropIcon')) {
+        document.querySelector('#city-list-dropIcon').remove();
+    }
+    /******* */
+});
