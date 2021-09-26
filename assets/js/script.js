@@ -14,6 +14,10 @@ const bgPics = {
 // an array to store a list of saved cities
 let cityList = [];
 
+// some objects that will hold the forecast information
+let forecast = {};
+let daily = {};
+
 //save the city list
 const saveCityList = () => {
         localStorage.setItem("WeatherForecast-Cities", JSON.stringify(cityList));
@@ -65,8 +69,10 @@ const getForecast = (loc) => {
             if (response.ok) {
                 response.json()
                     .then((data) => {
-                        displayCurrentForecast(loc.loc, data.current);
-                        displayFiveDayForecast(data.daily);
+                        forecast = data.current;
+                        daily = data.daily;
+                        displayCurrentForecast(loc.loc);
+                        displayFiveDayForecast();
                         //save last city to local storage
                         localStorage.setItem("WeatherForecast-mostRecent", JSON.stringify(loc));
                     })
@@ -114,7 +120,7 @@ const searchForCity = (searchVal) => {
 };
 
 //displays info on current weather conditions in pre made HTML elements
-const displayCurrentForecast = (city, forecast) => {
+const displayCurrentForecast = (city) => {
     // Update City/Location
     document.querySelector('#current-forecast h2').textContent = city;
     // Update current Date
@@ -122,8 +128,16 @@ const displayCurrentForecast = (city, forecast) => {
     document.querySelector('#cur-Date').textContent = forecastDate.toFormat('LLL dd yyyy');
     //Update Current Weather Icon
     document.getElementById('cur-ConditionsIcon').setAttribute('src', "http://openweathermap.org/img/w/" + forecast.weather[0].icon + ".png");
+    //Update Current Feels
+    document.getElementById('cur-Feels').innerHTML = forecast.feels_like + "&deg;";
     //Update Current Temp
     document.getElementById('cur-Temp').innerHTML = forecast.temp + "&deg;";
+    //Update Current high
+    document.getElementById('cur-High').innerHTML = daily[0].temp.max + "&deg;";
+    //Update Current low
+    document.getElementById('cur-Low').innerHTML = daily[0].temp.min + "&deg;";
+    //Update Current pop
+    document.getElementById('cur-Pop').innerHTML = daily[0].pop * 100 + "%";
     //Update Current Wind Speed
     document.getElementById('cur-Wind').textContent = forecast.wind_speed + " km/h";
     //Update Current Humidity
@@ -147,7 +161,7 @@ const displayCurrentForecast = (city, forecast) => {
 };
 
 //displays 5-day forecast weather conditions in dynamically created HTML elements
-const displayFiveDayForecast = (days) => {
+const displayFiveDayForecast = () => {
 
     let container = document.getElementById('fiveDay-forecast');
     container.innerHTML = '';
@@ -160,37 +174,44 @@ const displayFiveDayForecast = (days) => {
         let dayHolder = document.createElement('div');
         dayHolder.classList = 'fiveDay-box';
 
-        // Update current Date
-        let forecastDate = luxon.DateTime.fromMillis(days[i].dt * 1000);
+        // add a Date
+        let forecastDate = luxon.DateTime.fromMillis(daily[i].dt * 1000);
         let date = document.createElement('h4');
         date.textContent = forecastDate.toFormat('LLL dd yyyy');
-        //Update Current Weather Icon
+        //add a Weather Icon
         let icon = document.createElement('img');
-        icon.setAttribute('src', "http://openweathermap.org/img/w/" + days[i].weather[0].icon + ".png");
-        //Update Current Temp
-        let temp = document.createElement('div');
-        temp.innerHTML = "Temp: " + days[i].temp.max + "&deg;";
-        //Update Current Wind Speed
+        icon.setAttribute('src', "http://openweathermap.org/img/w/" + daily[i].weather[0].icon + ".png");
+        //add a Temp
+        let tempHi = document.createElement('div');
+        tempHi.innerHTML = "High: " + daily[i].temp.max + "&deg;";
+        let tempLo = document.createElement('div');
+        tempLo.innerHTML = "Low: " + daily[i].temp.min + "&deg;";
+        //add Pop
+        let pop = document.createElement('div');
+        pop.textContent = "Pop: " + daily[i].pop * 100 + "%";
+        //add a Wind Speed
         let wind = document.createElement('div');
-        wind.textContent = "Wind: " + days[i].wind_speed + " km/h";
-        //Update Current Humidity
+        wind.textContent = "Wind: " + daily[i].wind_speed + " km/h";
+        //add a Humidity
         let humidity = document.createElement('div');
-        humidity.textContent = "Humidity: " + days[i].humidity + "%";
-        //Update UV Index
+        humidity.textContent = "Humidity: " + daily[i].humidity + "%";
+        //add UV Index
         let UV = document.createElement('div');
         UV.textContent = "UV Index: ";
         let uvBox = document.createElement('span');
         uvBox.classList = 'uv-index';
-        uvBox.textContent = days[i].uvi;
-        //Update UV Index background color
-        (days[i].uvi >= 3) ?
-        (days[i].uvi > 7) ?
+        uvBox.textContent = daily[i].uvi;
+        //add UV Index background color
+        (daily[i].uvi >= 3) ?
+        (daily[i].uvi > 7) ?
         uvBox.style.backgroundColor = '#e8470a': uvBox.style.backgroundColor = '#d8d01f': uvBox.style.backgroundColor = '#57e45b';
         UV.appendChild(uvBox)
 
         dayHolder.appendChild(date);
         dayHolder.appendChild(icon);
-        dayHolder.appendChild(temp);
+        dayHolder.appendChild(tempHi);
+        dayHolder.appendChild(tempLo);
+        dayHolder.appendChild(pop);
         dayHolder.appendChild(wind);
         dayHolder.appendChild(humidity);
         dayHolder.appendChild(UV);
