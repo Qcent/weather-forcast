@@ -11,7 +11,7 @@
     --color-1: #b2ab8c;
     --color-2: #47597e;
     --color-3: #293b5f;
-    --trans-bg: rgba(71, 89, 126, .8);
+    --trans-bg: rgba(132, 153, 196, 0.8);
     --white-txt: rgb(240, 255, 240);
     --dark-txt: rgb(10, 19, 10);
     --delete-red: rgb(221, 21, 21);
@@ -253,7 +253,8 @@ main {
     }
     #city-list-dropIcon img {
         float: right;
-        width: 1.5rem;
+        width: 2rem;
+        height: 2rem;
         margin-bottom: 3px;
     }
     .expanded {
