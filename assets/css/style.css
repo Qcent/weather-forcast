@@ -269,11 +269,12 @@ main {
     #city-list-dropIcon {
         cursor: pointer;
         text-align: center;
+        padding-left: 1.8rem;
         border-bottom: 2px solid var(--color-1);
     }
     #city-list-dropIcon span {
         display: inline-block;
-        width: 93%;
+        width: 92.5%;
         font-size: 1.3rem;
     }
     #city-list-dropIcon img {
