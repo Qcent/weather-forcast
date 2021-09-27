@@ -326,10 +326,10 @@ document.querySelector('body').addEventListener('click', (e) => {
 window.addEventListener('resize', () => {
     /******** */
 
-    if (window.screen.width < 686 && !document.querySelector('#city-list-dropIcon')) {
+    if (window.innerWidth < 686 && !document.querySelector('#city-list-dropIcon')) {
         createDropDown();
     }
-    if (window.screen.width >= 686 && document.querySelector('#city-list-dropIcon')) {
+    if (window.innerWidth >= 686 && document.querySelector('#city-list-dropIcon')) {
         document.querySelector('#city-list-dropIcon').remove();
     }
     /******* */
