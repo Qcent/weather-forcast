@@ -187,7 +187,7 @@ main {
 @media screen and (max-width: 1200px) {
     #right-column {
         width: 75%;
-        padding: 0;
+        padding-right: 0;
     }
     .fiveDay-box {
         width: 18.8%;
@@ -247,6 +247,7 @@ main {
     }
     #right-column {
         width: 100%;
+        padding: 0;
     }
     .fiveDay-box {
         width: 19.5%;
