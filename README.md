@@ -4,6 +4,28 @@ A fully functional and lightweight weather app written in JavaScript.
 
 ![A sight to behold](./assets/images/app-screenshot.png)
 
+## Displays
+### Current Forecast
+* Image representation of general conditions
+* Icon representation of current conditions
+* Temp
+* Feels Like temp
+* Days high and low temps
+* Chance of precipitation
+* Wind speed
+* Humidity
+* UV Index with colour coded intensity level
+
+### Five Day Forecast
+* Icon representation of expected conditions
+* Expected Temp
+* Expected Feels Like temp
+* Expected high and low temps
+* Chance of precipitation
+* Expected Wind speed
+* Expected Humidity
+* Expected UV Index with colour coded intensity level
+
 ## Features
 * Search for any city in the world resolved with [OpenCage Geocoding API](https://opencagedata.com/)
 * View current conditions as well as a five day forecast provided by [OpenWeather One Call API](https://openweathermap.org/api/one-call-api)
@@ -16,14 +38,15 @@ A fully functional and lightweight weather app written in JavaScript.
 
 ## 3rd Party APIs
 This project is powered by and improved by several 3rd party organizations:
-[OpenWeather One Call API](https://openweathermap.org/api/one-call-api) for weather data.
-[OpenCage Geocoding API](https://opencagedata.com/) for forward geolocating. 
-[Luxon](https://moment.github.io/luxon/#/?id=luxon) for processing datetime stamps.
-[Google Fonts](https://fonts.google.com/) for fonts.
-[svgrepo.com](https://www.svgrepo.com) provided the SVG icons
+* [OpenWeather One Call API](https://openweathermap.org/api/one-call-api) for weather data.
+* [OpenCage Geocoding API](https://opencagedata.com/) for forward geolocating. 
+* [Luxon](https://moment.github.io/luxon/#/?id=luxon) for processing datetime stamps.
+* [Google Fonts](https://fonts.google.com/) for fonts.
+* [svgrepo.com](https://www.svgrepo.com) provided the SVG icons
+
 and royalty free images have been provided by
-[FreeImages.com](https://images.freeimages.com)
-[Pexels.com](https://www.pexels.com/)
+* [FreeImages.com](https://images.freeimages.com)
+* [Pexels.com](https://www.pexels.com/)
 
 ## License
 `weather-forecast` is Copyright 2021 Dave Quinn - Quinnco Enterprises.
