@@ -2,14 +2,17 @@
 let deleteMode = false;
 
 //array of objects to hold urls to images
+//royalty free images provided by
+//https://images.freeimages.com
+//https://www.pexels.com/
 const bgPics = {
-    sevenHun: "https://i.cbc.ca/1.4043542.1490696856!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_620/foggy-driving.jpg",
-    Clouds: "https://images.pexels.com/photos/53594/blue-clouds-day-fluffy-53594.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    Rain: "https://images.pexels.com/photos/2259232/pexels-photo-2259232.jpeg",
-    Drizzle: "https://images.pexels.com/photos/2259232/pexels-photo-2259232.jpeg",
-    Clear: "https://www.langleyadvancetimes.com/wp-content/uploads/2019/11/19458466_web1_Langley-Weather-Sun-Clear-Sky-Skies.jpg",
-    Snow: "https://www.metoffice.gov.uk/binaries/content/gallery/metofficegovuk/hero-images/events/christmas/pine-trees-in-christmas-snow.jpg",
-    Thunderstorm: "https://images.pexels.com/photos/6510369/pexels-photo-6510369.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+    sevenHun: "./assets/images/700.jpeg",
+    Clouds: "./assets/images/clouds.jpeg",
+    Rain: "./assets/images/rain.jpeg",
+    Drizzle: "./assets/images/rain.jpeg",
+    Clear: "./assets/images/clear.jpeg",
+    Snow: "./assets/images/snow.jpeg",
+    Thunderstorm: "./assets/images/thunderstorm.jpeg"
 };
 
 // an array to store a list of saved cities
@@ -271,7 +274,6 @@ document.querySelector('#city-search').addEventListener('keypress', (e) => {
         document.querySelector('#city-search-button').click();
     }
 });
-
 //Event listener on body handles all click delegation
 document.querySelector('body').addEventListener('click', (e) => {
 
