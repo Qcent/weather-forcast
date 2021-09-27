@@ -287,7 +287,7 @@ main {
         max-height: 800px !important;
     }
     .collapsed {
-        max-height: 0px !important;
+        max-height: .001rem !important;
     }
     #city-list-container .btn {
         width: 100%;

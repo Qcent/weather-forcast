@@ -313,7 +313,7 @@ document.querySelector('body').addEventListener('click', (e) => {
         return;
     }
 
-    if (e.target.id === 'remove-all-cities') { // remove all cities was clicked
+    if (e.target.classList == 'remove-all-cities') { // remove all cities was clicked
         if (confirm("Are you sure you want to remove all cities?")) {
             cityList = [];
             saveCityList();
@@ -321,7 +321,7 @@ document.querySelector('body').addEventListener('click', (e) => {
         }
         return;
     }
-    if (e.target.id === 'delete-city') { //delete city button was pressed
+    if (e.target.classList == 'delete-city') { //delete city button was pressed
         deleteMode = true;
         list = document.querySelectorAll('#city-list-container .btn')
         list.forEach((cti) => {
