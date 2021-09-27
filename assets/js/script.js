@@ -8,9 +8,11 @@ let deleteMode = false;
 const bgPics = {
     sevenHun: "./assets/images/700.jpeg",
     Clouds: "./assets/images/clouds.jpeg",
+    CloudsNight: "./assets/images/moon-clouds.jpeg",
     Rain: "./assets/images/rain.jpeg",
     Drizzle: "./assets/images/rain.jpeg",
     Clear: "./assets/images/clear.jpeg",
+    ClearNight: "./assets/images/moon.jpeg",
     Snow: "./assets/images/snow.jpeg",
     Thunderstorm: "./assets/images/thunderstorm.jpeg"
 };
@@ -154,12 +156,25 @@ const displayCurrentForecast = (city) => {
     (forecast.uvi >= 3) ? (forecast.uvi > 7) ?
     UV.style.backgroundColor = '#e8470a': UV.style.backgroundColor = '#d8d01f': UV.style.backgroundColor = '#57e45b';
 
+    // get sunrise/sunset times
+    let sunrise = luxon.DateTime.fromMillis(forecast.sunrise * 1000);
+    let sunset = luxon.DateTime.fromMillis(forecast.sunset * 1000);
+    let rightNow = luxon.DateTime.now();
+
+    //create a string var to hold Night flag
+    let day = '';
+
+    // compare to current time
+    // if rightNow > sunrise && < sunset then nothing else and night to clear and clouds
+    if ((rightNow < sunrise || rightNow > sunset) && (forecast.weather[0].main == 'Clouds' || forecast.weather[0].main == 'Clear')) {
+        day = 'Night';
+    }
 
     //update bg pic
     if (forecast.weather[0].id >= 700 && forecast.weather[0].id < 800) {
         document.getElementById('current-forecast').style.backgroundImage = "url('" + bgPics['sevenHun'] + "')";
     } else {
-        document.getElementById('current-forecast').style.backgroundImage = "url('" + bgPics[forecast.weather[0].main] + "')";
+        document.getElementById('current-forecast').style.backgroundImage = "url('" + bgPics[forecast.weather[0].main + day] + "')";
     }
     document.getElementById('current-forecast').style.backgroundSize = 'cover';
 
