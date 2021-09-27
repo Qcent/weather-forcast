@@ -259,7 +259,7 @@ main {
     }
     #city-list-container,
     #delete-container {
-        max-height: 0;
+        max-height: .001rem;
         overflow: hidden;
         transition: all .3s ease;
     }
