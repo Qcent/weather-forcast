@@ -1,3 +1,4 @@
+//a flag to announce saved cities are to be deleted
 let deleteMode = false;
 
 //array of objects to hold urls to images
@@ -20,9 +21,10 @@ let daily = {};
 
 //save the city list
 const saveCityList = () => {
-        localStorage.setItem("WeatherForecast-Cities", JSON.stringify(cityList));
-    }
-    //add a searched city to a list of saved cities
+    localStorage.setItem("WeatherForecast-Cities", JSON.stringify(cityList));
+};
+
+//add a searched city to a list of saved cities
 const saveCity = (city) => {
     let alreadyPresent = false;
     cityList.forEach((cti) => {
@@ -269,17 +271,19 @@ document.querySelector('#city-search').addEventListener('keypress', (e) => {
         document.querySelector('#city-search-button').click();
     }
 });
-//Eventlistener:  when clicked on search for city
-document.querySelector('#city-search-button').addEventListener('click', () => {
-    let searchString = document.querySelector('#city-search').value;
-    document.querySelector('#city-search').value = '';
-    if (searchString) {
-        searchForCity(searchString);
-    }
-});
-//Eventlistener:  when clicked on saved city
-document.querySelector('#city-list-container').addEventListener('click', (e) => {
 
+//Event listener on body handles all click delegation
+document.querySelector('body').addEventListener('click', (e) => {
+
+    if (e.target.id === 'city-search-button') { // search for city clicked
+        let searchString = document.querySelector('#city-search').value;
+        document.querySelector('#city-search').value = '';
+        if (searchString) {
+            searchForCity(searchString);
+        }
+        return;
+    }
+    //when a saved city button is clicked
     if (!deleteMode && e.target.getAttribute('data-lat') && e.target.getAttribute('data-lng')) {
         getForecast({
             loc: e.target.textContent,
@@ -289,41 +293,40 @@ document.querySelector('#city-list-container').addEventListener('click', (e) => 
         if (document.querySelector('#city-list-dropIcon')) { //in dropdown list mode
             collapseListToggle();
         }
+        return;
     }
-});
-//Eventlistener:  when clicked on remove all cities element
-document.querySelector('#remove-all-cities').addEventListener('click', () => {
-    if (confirm("Are you sure you want to remove all cities?")) {
-        cityList = [];
-        saveCityList();
-        displaySavedCities();
-    }
-});
-//Event listener on body handles deleting of individual cities
-document.querySelector('body').addEventListener('click', (e) => {
 
-        if (e.target.id === 'delete-city') { //delete city button was pressed
-            deleteMode = true;
-            list = document.querySelectorAll('#city-list-container .btn')
-            list.forEach((cti) => {
-                cti.classList = 'btn deleteable';
-
-            });
-        } else
-        if (deleteMode && e.target.matches('.deleteable')) { // a city was selected to be deleted
-            idx = e.target.getAttribute('data-index');
-            cityList.splice(idx, 1);
+    if (e.target.id === 'remove-all-cities') { // remove all cities was clicked
+        if (confirm("Are you sure you want to remove all cities?")) {
+            cityList = [];
             saveCityList();
             displaySavedCities();
-        } else if (deleteMode) { //something other then a city was clicked when in delete mode
-            deleteMode = false;
-            list = document.querySelectorAll('#city-list-container .btn')
-            list.forEach((cti) => {
-                cti.classList = 'btn';
-            });
         }
-    })
-    // create/remove a collapseable list for the cities when screen shrinks
+        return;
+    }
+    if (e.target.id === 'delete-city') { //delete city button was pressed
+        deleteMode = true;
+        list = document.querySelectorAll('#city-list-container .btn')
+        list.forEach((cti) => {
+            cti.classList = 'btn deleteable';
+        });
+        return;
+    } else if (deleteMode && e.target.matches('.deleteable')) { // a city was selected to be deleted
+        idx = e.target.getAttribute('data-index');
+        cityList.splice(idx, 1);
+        saveCityList();
+        displaySavedCities();
+        return;
+    } else if (deleteMode) { //something other then a city was clicked when in delete mode
+        deleteMode = false;
+        list = document.querySelectorAll('#city-list-container .btn')
+        list.forEach((cti) => {
+            cti.classList = 'btn';
+        });
+        return;
+    }
+});
+// create/remove a collapseable list for the cities when screen shrinks
 window.addEventListener('resize', () => {
     if (window.innerWidth < 686 && !document.querySelector('#city-list-dropIcon')) {
         createDropDown();
