@@ -232,7 +232,7 @@ const createDropDown = () => {
         let target = document.querySelector('#city-list-container');
         let el = document.createElement('div');
         el.setAttribute('id', 'city-list-dropIcon');
-        el.innerHTML = "<span>City List</span><img src='https://www.svgrepo.com/show/18393/list.svg' width='1rem' />";
+        el.innerHTML = "<span>City List</span><img src='./assets/images/list.svg' width='1rem' />";
 
         // insert el before target element
         target.parentNode.insertBefore(el, target);
