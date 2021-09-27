@@ -1,6 +1,6 @@
 let deleteMode = false;
 
-//array of objects to hold url to images
+//array of objects to hold urls to images
 const bgPics = {
     sevenHun: "https://i.cbc.ca/1.4043542.1490696856!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_620/foggy-driving.jpg",
     Clouds: "https://images.pexels.com/photos/53594/blue-clouds-day-fluffy-53594.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
@@ -54,7 +54,7 @@ const displaySavedCities = () => {
             i++;
         });
 
-        if (window.screen.width < 686) { createDropDown(); }
+        if (window.innerWidth < 686) { createDropDown(); }
     }
 }
 
@@ -82,7 +82,7 @@ const getForecast = (loc) => {
         });
 };
 
-// uses OpenCage API for searching locations and returning lat/lng coordinates
+//uses OpenCage API for searching locations and returning lat/lng coordinates
 const searchForCity = (searchVal) => {
     let OpenCageApiKey = "a31aaf6189ea4b81879c2695221eb02c";
     let OpenCageApiLang = "en";
@@ -227,7 +227,7 @@ const createDropDown = () => {
         let target = document.querySelector('#city-list-container');
         let el = document.createElement('div');
         el.setAttribute('id', 'city-list-dropIcon');
-        el.innerHTML = "City List<img src='https://www.svgrepo.com/show/18393/list.svg' width='1rem' />";
+        el.innerHTML = "<span>City List</span><img src='https://www.svgrepo.com/show/18393/list.svg' width='1rem' />";
 
         // insert el before target element
         target.parentNode.insertBefore(el, target);
@@ -239,6 +239,7 @@ const createDropDown = () => {
     }
 }
 
+// toggles the city list expand/collapse
 const collapseListToggle = () => {
     let listEl = document.querySelector('#city-list-container');
     listEl.className = (listEl.className != 'expanded') ? 'expanded' : 'collapsed';
@@ -262,7 +263,7 @@ const loadSavedCities = (() => {
 
 })(); // will execute automatically
 
-//Eventlistener:  when enter is pressed in search for city
+//Eventlistener:  when enter key is pressed in search for city
 document.querySelector('#city-search').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         document.querySelector('#city-search-button').click();
@@ -322,15 +323,12 @@ document.querySelector('body').addEventListener('click', (e) => {
             });
         }
     })
-    /// create a collapseable list for the cities
+    // create/remove a collapseable list for the cities when screen shrinks
 window.addEventListener('resize', () => {
-    /******** */
-
     if (window.innerWidth < 686 && !document.querySelector('#city-list-dropIcon')) {
         createDropDown();
     }
     if (window.innerWidth >= 686 && document.querySelector('#city-list-dropIcon')) {
         document.querySelector('#city-list-dropIcon').remove();
     }
-    /******* */
 });

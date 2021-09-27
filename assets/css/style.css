@@ -1,6 +1,5 @@
 * {
-    /* border: 1px solid black;
-    */
+    /* border: 1px solid black;  */
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -75,6 +74,7 @@ main {
     border-radius: .5rem;
     font-size: 1rem;
     padding: .5rem 0;
+    cursor: pointer;
 }
 
 #city-search-button {
@@ -100,6 +100,7 @@ main {
     display: inline-block;
     width: auto;
     padding: 1rem;
+    cursor: pointer;
 }
 
 #delete-container img {
@@ -217,7 +218,7 @@ main {
         flex-direction: column;
     }
     #left-column {
-        width: 98%;
+        width: 100%;
     }
     #left-column label {
         display: none;
@@ -249,11 +250,17 @@ main {
         border-bottom: none;
     }
     #city-list-dropIcon {
+        cursor: pointer;
         text-align: center;
         border-bottom: 2px solid var(--color-1);
     }
+    #city-list-dropIcon span {
+        display: inline-block;
+        width: 93%;
+        font-size: 1.3rem;
+    }
     #city-list-dropIcon img {
-        float: right;
+        vertical-align: middle;
         width: 2rem;
         height: 2rem;
         margin-bottom: 3px;
